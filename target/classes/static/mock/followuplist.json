@@ -1,0 +1,36 @@
+{
+    "data": {
+        "data": {
+            "pageNum": 1,
+            "total": 2
+        },
+        "pageData": [
+            {
+                "id":"ACSIE001001",
+                "patientid":"0010001001221",
+                "fullname": "张三",
+                "sex": "男",
+                "birthday": "2019-01-01",
+                "nation": "汉族",
+                "visitDate":"2020-12-31",
+                "visitor":"刘护士",
+                "temperature":"36.5",
+                "selfReported":"状态良好",
+                "publicity":"注意不要感冒",
+                "status": "false"
+            },
+            {
+                "fullname": "里斯本",
+                "sex": "女",
+                "birthday": "2019-01-01",
+                "nation": "汉族",
+                "visitDate":"2020-12-31",
+                "visitor":"刘护士",
+                "selfReported":"状态良好",
+                "publicity":"注意不要感冒",
+                "status": "false"
+            }
+        ]
+    }
+    
+}
