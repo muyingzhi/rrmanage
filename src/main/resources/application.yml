@@ -22,3 +22,25 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/RecordReport?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true
+    username: root
+    password: 123456
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.bridge.record.dao
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:**/mapper/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis-config.xml
+# PageHelper分页插件
+pagehelper:
+  #  helperDialect: oracle
+  helperDialect: mysql
+  #  autoRuntimeDialect=true 表示运行时获取数据源,涉及到多数据源为不同数据库设置为自动获取
+  # 在tj-security-boot-hr中有注入helperDialect，需手动去注销
+  autoRuntimeDialect: true
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
