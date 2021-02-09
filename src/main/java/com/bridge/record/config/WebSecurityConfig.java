@@ -1,10 +1,9 @@
 package com.bridge.record.config;
 
-import com.bridge.record.model.UserDao;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,10 +19,10 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	// @Autowired
-	// private UserDetailsService myUserDetailsService;
 	@Autowired
-    MyAuthenctiationSuccessHandler myAuthenctiationSuccessHandler;
+	private UserDetailsService myUserDetailsService;
+	@Autowired
+	MyAuthenctiationSuccessHandler myAuthenctiationSuccessHandler;
 	@Autowired
     MyLogOutSuccessHandler myLogOutSuccessHandler;
 
@@ -35,6 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					,"/include/**"
 					,"/mock/**","/home/**","/baseinfo/**","/plan/**"
 					,"/followup/**","/summary/**").permitAll()
+				.antMatchers("/api/**")
+				.hasRole("USER")
 				.anyRequest().authenticated()
 				.and()
 				.headers().frameOptions().disable()
@@ -47,40 +48,46 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.logout()
 				.logoutUrl("/signOut")
-				// .logoutSuccessUrl("/login/index")
-				// .logoutSuccessHandler(myLogOutSuccessHandler)
 				.permitAll()
+				.and()
+			
+			.csrf().disable()
 		;
 	}
 	//认证用户的来源
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		// auth.userDetailsService(userDetailsService())
-		// .passwordEncoder(passwordEncoder());
-		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("caos").password(new BCryptPasswordEncoder().encode("1")).roles("USER");
+		auth.userDetailsService(userDetailsService())
+		.passwordEncoder(passwordEncoder());
+		// auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("caos").password(new BCryptPasswordEncoder().encode("1")).roles("USER");
 
     }
 
 	@Bean
 	// @Override
 	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		return new myPasswordEncoder();
 	}
 	@Bean
 	@Override
 	public UserDetailsService userDetailsService() {
+		return myUserDetailsService;
 		// PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		// System.out.println(encoder.encode("1"));
-		UserDetails user =
-			 User.withUsername("caos")
-				.password("$2a$10$TB6/dNv.iG.BY9GwEjrLYeMaVxckjXwDSmf9GqMhCaxublucCM9RK")
-				.roles("USER")
-				.build();
-		System.out.println(user.getPassword());
-		// UserDetails user = new UserDao();
-		// System.out.println("load user:"+user.getUsername());
-
-		return new InMemoryUserDetailsManager(user);
+		// UserDetails user =
+		// 	 User.withUsername("caos").password("2")
+		// 		// .password("$2a$10$TB6/dNv.iG.BY9GwEjrLYeMaVxckjXwDSmf9GqMhCaxublucCM9RK")
+		// 		.roles("USER")
+		// 		.build();
+		// System.out.println(user.getPassword());
+		// return new InMemoryUserDetailsManager(user);
 	}
+	// @Bean
+    // @Override
+    // protected AuthenticationManager authenticationManager() throws Exception {
+	// 	MyAuthenticationManager a = new MyAuthenticationManager();
+    //     return a;
+    // }
+
 	
 }

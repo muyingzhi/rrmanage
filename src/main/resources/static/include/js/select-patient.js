@@ -15,7 +15,10 @@ var selectPatientWidget = Vue.component('select-patient', {
       return {
         list: [],
         selectedOne:{},
-		form:{fullname:""}
+		form:{fullname:""},
+		currentPage:0,
+		pageSize:10,
+		totalNum:0
       }
     },
 	template: `
@@ -63,7 +66,11 @@ var selectPatientWidget = Vue.component('select-patient', {
 							</el-tooltip>
 						</template>
 					</el-table-column>
-				</el-table>
+				</el-table> 
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+					:page-sizes="[10, 20, 50, 100]" :page-size="pageSize" layout="total, prev, pager, next, sizes, jumper"
+					:total="totalNum">
+				</el-pagination>
 			</div>
               `,
     mounted: function () {
@@ -76,27 +83,37 @@ var selectPatientWidget = Vue.component('select-patient', {
       }
     },
     methods: {
-		selectedPat:function(index,patient){
-			this.$emit("selected-patient",patient)
+		selectedPat:function(index,pat){
+			this.$emit("selected-patient",
+				{patientid: pat.patientid,
+					fullname:pat.fullname,
+					sex:pat.sex,
+					nation:pat.nation,
+					birthday:pat.birthday
+				})
 		},
 		loadpatient: function() {
-			this.list=[{
-				fullname:"张三",
-				sex:"男",
-				birthday:"2019-01-01",
-				address:"郑州市xxxx",
-				patientid:"001009008001001"
-			},{
-				fullname:"里斯本",
-				sex:"女",
-				birthday:"2010-01-01",
-				address:"郑州市xxxx",
-				patientid:"002009009002002"
-			}]
+			var that = this;
+			var tmp = {
+				fullname:this.form.fullname?this.form.fullname:'',
+				pageNum: this.currentPage,
+				pageSize: this.pageSize,
+			};
+			axios.post(serverurl + 'api/baseinfo/list?fullname='+tmp.fullname,tmp).then(function(res) {
+				that.totalNum = res.data.data.total;
+				that.list = res.data.data.pageData;
+				
+			});
 		},
-        closeDialog(){
-
-        }  
+		handleSizeChange: function(val) {
+			this.pageSize = val;
+			this.currentPage = 1;
+			this.loadtable();
+		},
+		handleCurrentChange: function(val) {
+			this.currentPage = val;
+			this.loadtable();
+		},
     }
   })
   

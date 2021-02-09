@@ -10,12 +10,20 @@ var initdata = new Vue({
 		pageSize: 10,
 		totalNum: '',
 		form: {
+			id:'',
 			patientid: '',
 			fullname: '',
 			sex: '',
 			birthday: '',
 			address: '',
-			examItems:[]
+			examDate:null,
+			examItems:[],
+			explanation:'',
+			suggestion:'',
+			plan1:'',plan2:'',plan3:'',
+			plan1Date:null,plan2Date:null,plan3Date:null,
+			nurseName:'',expertName:'',
+			explantDate:null
 		},
 		activeName: 'first',
 		rules: {
@@ -60,44 +68,78 @@ var initdata = new Vue({
 			//选中一个客户，打开编辑窗口，并为form设置初始值
 			this.isShowSelect = false;
 			this.isShowEdit = true;
-			this.form = Object.assign({
-				examDate:new Date(),
-				explantDate:new Date(),
-				nurseName: "刘护士",
-				expertName: "李专家",
-				examItems: []
-			}, patient);
+			this.initform();
+			this.form = Object.assign(
+				this.form,
+				patient);
 			this.isAdd = true;
 		},
 		loadtable: function() {
 			//----查询，根据姓名获取客户列表
 			var that = this;
-			var params = '?fullname=' + this.fullname + '&pageNum=' + this.currentPage +
-			'&pageSize=' + this.pageSize;
-			axios.get(serverurl + 'mock/planlist.json').then(function(res) {
+			var params ={fullname: this.fullname?this.fullname:"" ,
+				pageNum:this.currentPage,
+				pageSize:this.pageSize}
+				;
+			axios.post(serverurl + 'api/plan/list?fullname='+params.fullname,params).then(function(res) {
 				that.totalNum = res.data.data.total;
 				that.tableData = res.data.data.pageData;
 			});
 		},
+		initform(){
+			this.form.id='';
+			this.form.fullname='';
+			this.form.sex='';
+			this.form.birthday='';
+			this.form.nation='';
+			this.form.examDate=null;
+			this.form.examItems=[];
+			this.form.explanation='';
+			this.form.suggestion=null;
+			this.form.plan1=null;
+			this.form.plan2=null;
+			this.form.plan3=null;
+			this.form.plan1Date=null;
+			this.form.plan2Date=null;
+			this.form.plan3Date=null;
+			this.form.nurseName=null;
+			this.form.expertName=null;
+			this.form.explantDate=null;
+		},
 		// 关闭弹出框
 		closeDialog: function() {
-			this.form = Object.assign({examItems:[]}, {});
+			this.initform();
 		},
 		//编辑
 		handleEdit: function(index, row) {
 			//当前行记录赋值给form，显示编辑窗口
-			this.form = Object.assign({examItems:[]}, row);
-			this.isShowEdit = true;
+			this.form = Object.assign(this.form, row);
+			if(row.examItems==null){
+				this.form.examItems=[];
+			}else{
+				this.form.examItems=row.examItems.split(";")
+			}
+ 			this.isShowEdit = true;
 			this.isadd = false;
 		},
 		saveEdit: function(formName) {
 			var that = this;
 			this.$refs[formName].validate(function(valid) {
 				if (valid) {
+					var data = Object.assign({}, that.form);
+					var ss="";
+					for(var i=0;i<data.examItems.length;i++){
+						ss+=data.examItems[i]+";";
+					}
+					if(ss.endsWith(";")){
+						ss= ss.substr(0,ss.length -1);
+					}
+					data.examItems=ss;
+						
 					axios({
-						method: 'get',
-						url: serverurl + 'mock/baseinfoadd.json',
-						params: that.form
+						method: 'post',
+						url: serverurl + 'api/plan/save',
+						data: data
 					}).then(
 						function(res) {
 							if (res.data.code == 500) {
@@ -132,7 +174,7 @@ var initdata = new Vue({
 				confirmButtonText: '确定',
 				type: 'warning'
 			}).then(function() {
-				axios.get(serverurl + 'paApi/hspBaseinfo/deleteHspBaseinfo?id=' + row.id).then(
+				axios.delete(serverurl + 'api/plan/' + row.id).then(
 					function(res) {
 						if (res.data.code == 0) {
 							that.loadtable();

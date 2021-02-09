@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="../include/style/common.css" media="all">
 	<link rel="stylesheet" href="../include/style/tableList.css">
 	<style>
-		.el-date-editor.el-input{width:127px;}
+		.el-date-editor.el-input{width:130px;}
 	</style>
 </head>
 
@@ -31,6 +31,11 @@
 		<el-table :data="tableData" style="width: 100%" stripe="true">
 			</el-table-column>
 			<el-table-column type="index" width="50" label="序号">
+			</el-table-column>
+			<el-table-column label="档案编号">
+				<template slot-scope="scope">
+					<span>{{ scope.row.patientid }}</span>
+				</template>
 			</el-table-column>
 			<el-table-column label="姓名">
 				<template slot-scope="scope">
@@ -52,22 +57,26 @@
 					<span>{{ scope.row.nation }}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="登记时间">
+			<el-table-column label="填表日期">
 				<template slot-scope="scope">
 					<span>{{ scope.row.createDate }}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="状态">
+			<!-- <el-table-column label="状态">
 				<template slot-scope="scope">
 					<el-switch v-model="scope.row.status" active-color="#2a97ff" inactive-color="#b3b3b3">
 					</el-switch>
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column label="操作" width="150" fixed="right" align="center">
 				<template slot-scope="scope">
 					<el-tooltip class="item" content="编辑">
 						<a @click="handleEdit(scope.$index, scope.row)"><img
 								src="../include/images/table/edit-blue.png" /></a>
+					</el-tooltip>
+					<el-tooltip class="item" content="删除">
+						<a @click="handleDelete(scope.$index, scope.row)"><img
+								src="../include/images/table/del.png" /></a>
 					</el-tooltip>
 				</template>
 			</el-table-column>
@@ -83,7 +92,15 @@
 			<div slot="title" v-else>编辑</div>
 			<el-form :model="form" :rules="rules" ref="form" label-width="80px" label-position="right"
 				class="elrulesform">
-				<el-row :gutter="10"><h3>一、一般资料</h3></el-row>
+				<el-row :gutter="10">
+					<el-col :span="6">
+						<el-form-item label="档案编号" prop="patientid" >
+							<el-input v-model="form.patientid" placeholder="请输入" size="mini"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="10"><h3>一、一般资料</h3>
+				</el-row>
 				<el-row :gutter="10">
 					<el-col :span="6">
 						<el-form-item label="姓名" prop="fullname">
@@ -100,7 +117,7 @@
 						<el-form-item label="出生日期">
 							<el-date-picker
 								v-model="form.birthday"
-								type="date"
+								type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
 								placeholder="选择日期"
 								size="mini">
 								</el-date-picker>
@@ -132,12 +149,16 @@
 				<el-row :gutter="10">
 					<el-col :span="6">
 						<el-form-item label="身高">
-							<el-input v-model="form.height" placeholder="请输入" size="mini"></el-input>
+							<el-input v-model="form.height" placeholder="请输入" size="mini">
+								<i slot="suffix" style="font-style:normal;margin-right: 10px;">厘米</i>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
 						<el-form-item label="体重">
-							<el-input v-model="form.weight" placeholder="请输入" size="mini"></el-input>
+							<el-input v-model="form.weight" placeholder="请输入" size="mini">
+								<i slot="suffix" style="font-style:normal;margin-right: 10px;">公斤</i>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
@@ -154,22 +175,30 @@
 				<el-row :gutter="10">
 					<el-col :span="6">
 						<el-form-item label="体温">
-							<el-input v-model="form.temperature" placeholder="请输入" size="mini"></el-input>
+							<el-input v-model="form.temperature" placeholder="请输入" size="mini">
+								<i slot="suffix" style="font-style:normal;margin-right: 10px;">℃</i>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
 						<el-form-item label="血压">
-							<el-input v-model="form.bloodpressure" placeholder="请输入" size="mini"></el-input>mmHg
+							<el-input v-model="form.bloodpressure" placeholder="请输入" size="mini">
+								<i slot="suffix" style="font-style:normal;margin-right: 10px;">mmHg</i>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
 						<el-form-item label="心率">
-							<el-input v-model="form.heartrate" placeholder="请输入" size="mini"></el-input>次/分
+							<el-input v-model="form.heartrate" placeholder="请输入" size="mini">
+								<i slot="suffix" style="font-style:normal;margin-right: 10px;">次/分</i>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
 						<el-form-item label="呼吸">
-							<el-input v-model="form.breathe" placeholder="请输入" size="mini"></el-input>次/分
+							<el-input v-model="form.breathe" placeholder="请输入" size="mini">
+								<i slot="suffix" style="font-style:normal;margin-right: 10px;">次/分</i>
+							</el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -654,9 +683,11 @@
 							<span style="float: right;">末次月经日期</span>
 					</el-col>
 					<el-col :span="5">
+						
 							<el-date-picker
 								v-model="form.h6Date"
 								type="date"
+								value-format="yyyy-MM-dd" format="yyyy-MM-dd"
 								placeholder="选择日期"
 								size="mini">
 								</el-date-picker>
@@ -696,14 +727,14 @@
 					</el-col>
 					<el-col :span="6">
 						<el-form-item label="护士签名">
-							<el-input v-model="form.nursename" placeholder="请输入" size="mini"></el-input>
+							<el-input v-model="form.nurseName" placeholder="请输入" size="mini"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="5">
 						<el-form-item label="填表日期">	
 							<el-date-picker
 								v-model="form.createDate"
-								type="date"
+								type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
 								placeholder="选择日期"
 								size="mini">
 								</el-date-picker>						

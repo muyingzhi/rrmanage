@@ -4,21 +4,21 @@
   <resultMap id="BaseResultMap" type="com.bridge.record.model.PlanRecord">
     <!--@mbg.generated generated on Thu Jan 21 10:55:45 CST 2021.-->
     <!--@Table biz_component_field-->
-    <id column="id" jdbcType="VARCHAR" property="id" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="patientid" jdbcType="VARCHAR" property="patientid" />
-    <result column="expertName" jdbcType="VARCHAR" property="expertName" />
-    <result column="explantDate" jdbcType="TIMESTAMP" property="explantDate" />
-    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="expert_name" jdbcType="VARCHAR" property="expertName" />
+    <result column="explant_date" jdbcType="TIMESTAMP" property="explantDate" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated generated on Thu Jan 21 10:55:45 CST 2021.-->
-    id, patientid, expertName, explantDate, createDate
+    id, patientid, expert_name, explant_date, create_date
   </sql>
-  <select id="getByFullname" resultType="com.bridge.record.model.PlanRecord">
+  <select id="findByFullname" resultType="com.bridge.record.model.PlanRecord">
     SELECT
-    <include refid="Base_Column_List" />
-    FROM rr_plan_record t
-    WHERE 1=1
+    a.patientid,a.fullname,a.sex,a.nation,t.*
+    FROM rr_plan_record t left join rr_baseinfo_record a on t.patientid=a.patientid
+    WHERE a.fullname like #{fullname}
   </select>
   <delete id="deleteById">
     DELETE FROM rr_plan_record

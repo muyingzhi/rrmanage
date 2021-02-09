@@ -92,9 +92,9 @@
 							<el-form-item label="检测日期">
 								<el-date-picker
 									v-model="form.examDate"
-									type="date"
+									type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
 									placeholder="选择日期"
-									size="small">
+									size="mini">
 									</el-date-picker>
 							</el-form-item>
 						</el-col>
@@ -153,15 +153,30 @@
 					</el-row>
 					<el-row :gutter="10">
 						<el-col :span="10">
-							<el-form-item label="方案执行时间">						
-								<el-input v-model="form.plan1Date" placeholder="方案一" size="small"></el-input>
+							<el-form-item label="方案执行时间">	
+								<el-date-picker
+									v-model="form.plan1Date"
+									type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
+									placeholder="选择日期"
+									size="small">
+									</el-date-picker>					
 							</el-form-item>
 						</el-col>
 						<el-col :span="7">
-								<el-input v-model="form.plan2Date" placeholder="方案二" size="small"></el-input>
+							<el-date-picker
+								v-model="form.plan2Date"
+								type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
+								placeholder="选择日期"
+								size="small">
+								</el-date-picker>
 						</el-col>
 						<el-col :span="7">
-								<el-input v-model="form.plan3Date" placeholder="方案三" size="small"></el-input>
+							<el-date-picker
+								v-model="form.plan3Date"
+								type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
+								placeholder="选择日期"
+								size="small">
+								</el-date-picker>
 						</el-col>
 					</el-row>
 					<el-row :gutter="10">
@@ -176,10 +191,10 @@
 							</el-form-item>
 						</el-col>
 						<el-col :span="8">
-							<el-form-item label="解读时间">	
+							<el-form-item label="解读时间">
 									<el-date-picker
 										v-model="form.explantDate"
-										type="date"
+										type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
 										placeholder="选择日期"
 										size="small">
 										</el-date-picker>

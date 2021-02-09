@@ -13,7 +13,7 @@ public class SysRole implements GrantedAuthority {
     @Override
     public String getAuthority() {
         // TODO Auto-generated method stub
-        return this.roleName;
+        return "ROLE_"+this.roleName;
     }
     
 }

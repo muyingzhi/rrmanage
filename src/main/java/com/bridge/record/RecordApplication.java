@@ -12,5 +12,4 @@ public class RecordApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RecordApplication.class, args);
 	}
-
 }

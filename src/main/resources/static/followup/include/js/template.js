@@ -33,9 +33,9 @@ var initdata = new Vue({
 			sex: '',
 			birthday: '',
 			address: '',
-			visitDate: '',
-			visitor:'',
-			temperature:37,
+			visitDate: null,
+			visitor:null,
+			temperature:36,
 			selfReported:'',
 			publicity:''
 		},
@@ -77,11 +77,9 @@ var initdata = new Vue({
 			//选中一个客户，打开编辑窗口，并为form设置初始值
 			this.isShowSelect = false;
 			this.isShowEdit = true;
-
-			this.form = Object.assign({},{
-				temperature:36,
-				visitDate:new Date(),
-				visitor: "刘护士"
+			this.initform();
+			this.form = Object.assign(this.form,{
+				temperature:36
 			},patient);
 			
 			this.isAdd = false;
@@ -89,7 +87,8 @@ var initdata = new Vue({
 		//编辑
 		handleEdit: function(index, row) {
 			//当前行记录赋值给form，显示编辑窗口
-			this.form = Object.assign({}, row);
+			this.initform();
+			this.form = Object.assign(this.form, row);
 
 			this.isShowEdit = true;
 			this.isAdd = false;
@@ -97,25 +96,42 @@ var initdata = new Vue({
 		loadtable: function() {
 			//----查询，根据姓名获取客户列表
 			var that = this;
-			var params = +'?fullname=' + this.fullname + '&pageNum=' + this.currentPage +
-			'&pageSize=' + this.pageSize;
-			axios.get(serverurl + 'mock/followuplist.json').then(function(res) {
+			var params ={fullname: !(this.fullname==null)?this.fullname:"" ,
+				pageNum:this.currentPage,
+				pageSize:this.pageSize}
+				;
+			axios.post(serverurl + 'api/followup/list?fullname='+params.fullname,params).then(function(res) {
 				that.totalNum = res.data.data.total;
 				that.tableData = res.data.data.pageData;
 			});
 		},
+		initform(){
+			this.form.id='';
+			this.form.fullname='';
+			this.form.sex='';
+			this.form.birthday='';
+			this.form.nation='';
+			this.form.address=null;
+			this.form.visitDate= null;
+			this.form.visitor=null;
+			this.form.temperature=36;
+			this.form.selfReported='';
+			this.form.publicity='';
+		},
 		// 关闭弹出框
 		closeDialog: function() {
-			this.form = {};
+			this.initform()
 		},
 		saveEdit: function(formName) {
 			var that = this;
+			
 			this.$refs[formName].validate(function(valid) {
 				if (valid) {
+					var data = Object.assign({},that.form);
 					axios({
-						method: 'get',
-						url: serverurl + 'mock/baseinfoadd.json',
-						params: that.form
+						method: 'post',
+						url: serverurl + 'api/followup/save',
+						data: data
 					}).then(
 						function(res) {
 							if (res.data.code == 500) {
@@ -150,7 +166,7 @@ var initdata = new Vue({
 				confirmButtonText: '确定',
 				type: 'warning'
 			}).then(function() {
-				axios.get(serverurl + 'paApi/hspBaseinfo/deleteHspBaseinfo?id=' + row.id).then(
+				axios.delete(serverurl + 'api/followup/' + row.id).then(
 					function(res) {
 						if (res.data.code == 0) {
 							that.loadtable();

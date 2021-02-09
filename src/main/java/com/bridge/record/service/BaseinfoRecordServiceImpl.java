@@ -1,21 +1,20 @@
 package com.bridge.record.service;
 
-import java.util.List;
-
-import com.bridge.record.dao.PlanRecordMapper;
-import com.bridge.record.model.PlanRecord;
+import com.bridge.record.dao.BaseinfoRecordMapper;
+import com.bridge.record.model.BaseinfoRecord;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PlanRecordServiceImpl {
+public class BaseinfoRecordServiceImpl {
     @Autowired
-    private PlanRecordMapper mapper;
-    public Iterable<PlanRecord> getByFullname(String fullname){
+    private BaseinfoRecordMapper mapper;
+    public Iterable<BaseinfoRecord> getByFullname(String fullname){
+        
         return mapper.findByFullname(fullname==null?"%":fullname+"%");
     }
-    public int save(PlanRecord record){
+    public int save(BaseinfoRecord record){
         if(record.getId()==null){
             mapper.insert(record);
         }else{
@@ -23,7 +22,7 @@ public class PlanRecordServiceImpl {
         }
         return 1;
     }
-    public PlanRecord selectByPrimaryKey(long id){
+    public BaseinfoRecord selectByPrimaryKey(long id){
         return mapper.selectByPrimaryKey(id);
     }
     public int deleteByPrimaryKey(long id){
