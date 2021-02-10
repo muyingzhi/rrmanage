@@ -17,7 +17,7 @@
     <!--@mbg.generated generated on Thu Jan 21 10:55:45 CST 2021.-->
     id, patientid, fullname,sex,cardno,birthday,nation,create_date
   </sql>
-  <select id="findByFullname" resultType="com.bridge.record.model.BaseinfoRecord">
+  <select id="selectByFullname" resultType="com.bridge.record.model.BaseinfoRecord">
     SELECT
     <include refid="Base_Column_List" />
     FROM rr_baseinfo_record t

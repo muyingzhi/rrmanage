@@ -17,21 +17,29 @@ import org.springframework.stereotype.Component;
 public class MyAuthenctiationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        response.setContentType("application/json;charset=utf-8");
- 
-        RequestCache cache = new HttpSessionRequestCache();
-        SavedRequest savedRequest = cache.getRequest(request, response);
-        String contextPath = (request.getContextPath());
-        // 如果来源请求为空则跳转到用户博客首页
-        String url = contextPath + "/";
-        // if((savedRequest==null)){
-        //     url = "/blog/"+ SecurityUtil.getLoginUser();
-        // }else{
-            // url = savedRequest.getRedirectUrl();
-        // }
- 
-        System.out.println(url);
- 
-        response.sendRedirect(url);
+        if(isAjaxRequest(request)){
+            response.setContentType("application/json;charset=utf-8");
+
+        }else{
+            RequestCache cache = new HttpSessionRequestCache();
+            SavedRequest savedRequest = cache.getRequest(request, response);
+            String contextPath = (request.getContextPath());
+            // 如果来源请求为空则跳转到首页
+            String url = contextPath + "/";
+            // if((savedRequest==null)){
+            //     url = "/blog/"+ SecurityUtil.getLoginUser();
+            // }else{
+                // url = savedRequest.getRedirectUrl();
+            // }
+    
+            System.out.println("登录成功，跳转到："+url);
+    
+            response.sendRedirect(url);
+        }
     }
+    public boolean isAjaxRequest(HttpServletRequest request){  
+        String header = request.getHeader("X-Requested-With");  
+        boolean isAjax = "XMLHttpRequest".equals(header) ? true:false;  
+        return isAjax;  
+    } 
 }

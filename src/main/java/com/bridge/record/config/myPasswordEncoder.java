@@ -2,7 +2,7 @@ package com.bridge.record.config;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class myPasswordEncoder implements PasswordEncoder {
+public class MyPasswordEncoder implements PasswordEncoder {
 
     @Override
     public String encode(CharSequence rawPassword) {

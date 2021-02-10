@@ -3,7 +3,6 @@ package com.bridge.record.config;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Service;
 
 public class MyAuthenticationManager implements AuthenticationManager {
 

@@ -1,18 +1,19 @@
 package com.bridge.record.controller;
 
+import java.security.Principal;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.bridge.common.AjaxResult;
 import com.bridge.common.PageRequest;
 import com.bridge.common.PageResponse;
 import com.bridge.record.model.BaseinfoRecord;
 import com.bridge.record.service.BaseinfoRecordServiceImpl;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,8 +44,11 @@ public class BaseinfoController {
             return AjaxResult.success(responseVo);
     }
     @PostMapping("/new")
-    public AjaxResult<BaseinfoRecord> addnew(){
-        return AjaxResult.success(new BaseinfoRecord());
+    public AjaxResult<BaseinfoRecord> addnew(HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        BaseinfoRecord record = new BaseinfoRecord();
+        record.setNurseName(principal.getName());
+        return AjaxResult.success(record);
     }
     @PostMapping("/save")
     public AjaxResult<Integer> save(@RequestBody BaseinfoRecord record){

@@ -4,21 +4,32 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.Data;
+@Data
+@Entity
+@Table(name="sys_user")
 public class SysUser implements UserDetails {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
     private String username;
-    private String pwd;
+    private String password;
+    private String fullname;
     private List<SysRole> roles;
 
+    public SysUser(){
+        
+    }
     public SysUser(String username,String pwd,List<SysRole> roles){
         this.username=username;
-        this.pwd = pwd;
+        this.password = pwd;
         this.roles = roles;
     }
 
@@ -31,7 +42,7 @@ public class SysUser implements UserDetails {
     @Override
     public String getPassword() {
         // TODO Auto-generated method stub
-        return this.pwd;
+        return this.password;
     }
 
     @Override

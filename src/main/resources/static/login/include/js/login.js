@@ -50,7 +50,7 @@ layui.config({
 			password: '',
 			psdveri: false,
 			verify:'',
-			verifycode:serverurl +'captcha/captchaImage?type=char',
+			verifycode:serverurl +'login/captcha.jpg?type=char',
 			zdlogind:false,
 			errormsg:'',
 			pwdtype:'1'
@@ -73,6 +73,9 @@ layui.config({
 					this.pwdtype="1";
 				}
 				
+			},
+			refreshCode: function(){
+				this.verifycode = serverurl +'login/captcha.jpg?t='+$.now();
 			},
 			login: function(){
 				if (this.username == "" && this.password == "") {

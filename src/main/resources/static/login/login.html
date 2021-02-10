@@ -46,8 +46,8 @@
 
 							</div>
 							<div class="pwd-d clear">
-								<input class="xm layui-input photokey" v-model="verify" placeholder="请输入验证码">
-								<div class="pwds"><img :src="verifycode" /></div>
+								<input name="verifyCode" class="xm layui-input photokey" v-model="verify" placeholder="请输入验证码">
+								<div class="pwds"><img :src="verifycode"  v-on:click="refreshCode"/></div>
 							</div>
 
 							<div class="layui-form-item">
@@ -58,6 +58,7 @@
 							<div class="rem-psd">
 								<p th:if="${param.logout}" class="wenzi">您已退出登录</p>
 								<p th:if="${param.error}" class="wenzi">用户名或密码错误</p>
+								<p th:if="${param.verify}" class="wenzi">验证码错误</p>
 							</div>
 							<input id="btnlogin" type="button" value="登录" class="subt" v-on:click="login" />
 						</div>

@@ -110,7 +110,16 @@ var initdata = new Vue({
 			}]
 		}
 	},
-	
+	computed:{
+		bmi:function(){
+			var rtn=null;
+			if(this.form.weight>0 && this.form.height>0){
+				rtn = this.form.weight/(this.form.height/100)/(this.form.height/100)
+				rtn = Math.round(rtn);
+			}
+			return rtn;
+		}
+	},
 	mounted: function() {
 		var that = this;
 		this.loadtable();
@@ -135,11 +144,6 @@ var initdata = new Vue({
 					}
 				}
 			});
-		},
-		dataChange(pageData){
-			for(let one in pageData){
-				
-			}
 		},
 		initform(){
 			this.form.symptomOther="";
@@ -179,6 +183,7 @@ var initdata = new Vue({
 				if (valid) {
 					var data = Object.assign({}, that.form);
 					for(var p in data){
+						//----数组转字符串
 						if(that.arrayColumns.indexOf(p)>=0){
 							var ss="";
 							for(var i=0;i<data[p].length;i++){
@@ -190,7 +195,7 @@ var initdata = new Vue({
 							data[p]=ss;
 						}
 					}
-					
+					data.bmi = that.bmi;
 					axios({
 						method: 'post',
 						url: serverurl + 'api/baseinfo/save',
@@ -259,6 +264,7 @@ var initdata = new Vue({
 						}
 					}
 					
+					data.bmi = that.bmi;
 					axios.post(serverurl + 'api/baseinfo/save',
 						data
 					).then(
