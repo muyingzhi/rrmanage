@@ -23,7 +23,7 @@ public class SysUserController {
     @PostMapping("/list")
     public AjaxResult<Iterable<SysUser>> getPageList(
         ){
-            Iterable<SysUser> its= userService.getAllNoPassword();
+            Iterable<SysUser> its= userService.getNurse();
 
             return AjaxResult.success(its);
     }

@@ -38,6 +38,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public List<SysUser> getAllNoPassword(){
         return userMapper.selectAllNoPassword();
     }
+    public List<SysUser> getNurse(){
+        return userMapper.selectByRole(4);
+    }
     public int save(SysUser record){
         if(record.getId()==null){
             userMapper.insert(record);

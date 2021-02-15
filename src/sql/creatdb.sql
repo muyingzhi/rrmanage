@@ -125,6 +125,7 @@ CREATE TABLE `sys_role`  (
 INSERT INTO `sys_role` VALUES (1, 'SUPER_ADMIN');
 INSERT INTO `sys_role` VALUES (2, 'ADMIN');
 INSERT INTO `sys_role` VALUES (3, 'USER');
+INSERT INTO `sys_role` VALUES (4, 'NURSE');
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户主键',
@@ -132,13 +133,14 @@ CREATE TABLE `sys_user`  (
   `password` varchar(32) NOT NULL COMMENT '密码',
   `fullname` varchar(20) NOT NULL COMMENT '姓名',
   `role_id` int(11) DEFAULT NULL COMMENT '与role角色表联系的外键',
+
   PRIMARY KEY (`id`),
   CONSTRAINT `user_role_on_role_id` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`)
 );
 
 INSERT INTO `sys_user` VALUES (1, 'muyz', '123','穆英智', 1);
 INSERT INTO `sys_user` VALUES (2, 'admin', '666666','管理员', 2);
-INSERT INTO `sys_user` VALUES (3, 'zhs', '666666', '张护士',3);
+INSERT INTO `sys_user` VALUES (3, 'zhs', '666666', '张护士',4);
 DROP TABLE IF EXISTS sys_permission;
 
 CREATE TABLE `sys_permission`  (
