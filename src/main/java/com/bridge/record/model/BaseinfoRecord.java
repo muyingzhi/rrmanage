@@ -86,7 +86,7 @@ public class BaseinfoRecord {
     private String others;
     private String treat;
     private String nurseName;
-    private String createDate;
+    private String nurseFullname;    private String createDate;
     private String status;
     public String toString() {
         return String.format("Plan[id=%n, 客户档案号='%s', 专家='%s', 解读日期='%s']", id, patientid);

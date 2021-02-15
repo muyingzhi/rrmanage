@@ -15,7 +15,23 @@
 
 <body>
   <div class="cont">
-    <el-collapse v-model="activeNames">
+    <el-row :gutter="10" style="height: 200px;">
+    </el-row>
+    <el-row :gutter="10" >
+      <el-col :span="14" :offset="4">
+        <el-steps :active="active" finish-status="success" align-center="true">
+          <el-step :title="'客户总数：'+d1"></el-step>
+          <el-step :title="'解读方案人次：'+d2"></el-step>
+          <el-step :title="'回访记录人次：'+d3"></el-step>
+        </el-steps>
+      </el-col>
+      <el-col :span="2" :offset="1">
+        <a class="bluebtn mr20" @click="loadData" >刷新</a>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10" >
+    </el-row>
+    <el-collapse v-model="activeNames" style="display:none">
       <el-collapse-item title="“细胞干预方案”记录单" name="1">
 		  <ul class="list">
 			  <li>张三<a href="http://abcchinainvoiceinvoiceinvoiceinvoiceinvoice.com" target="_blank">http://abcchinainvoiceinvoiceinvoiceinvoiceinvoice.com</a></li>

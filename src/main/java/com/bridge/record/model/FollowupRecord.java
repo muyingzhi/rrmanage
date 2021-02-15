@@ -18,7 +18,8 @@ public class FollowupRecord {
     private String patientid;
     private String createDate;
     private String visitDate;
-    private String visitor;
+    private String nurseName;
+    private String nurseFullname;
     private Float temperature  ;
     private String selfReported ;
     private String publicity;

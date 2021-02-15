@@ -32,6 +32,11 @@
 				</el-table-column>
 				<el-table-column type="index" width="50" label="序号">
 				</el-table-column>
+				<el-table-column label="档案编号">
+					<template slot-scope="scope">
+						<span>{{ scope.row.patientid }}</span>
+					</template>
+				</el-table-column>
 				<el-table-column label="姓名">
 					<template slot-scope="scope">
 						<span>{{ scope.row.fullname }}</span>
@@ -45,6 +50,11 @@
 				<el-table-column label="出生日期">
 					<template slot-scope="scope">
 						<span>{{ scope.row.birthday }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="护士">
+					<template slot-scope="scope">
+						<span>{{ scope.row.nurseFullname }}</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="专家">
@@ -181,8 +191,16 @@
 					</el-row>
 					<el-row :gutter="10">
 						<el-col :span="7" :offset="2">
-							<el-form-item label="护士签名">							
-								<el-input v-model="form.nurseName" placeholder="请输入" size="small"></el-input>
+							<el-form-item label="护士签名">		
+								<el-select v-model="form.nurseName" placeholder="请选择" size="mini"
+								@change="nurseChange">
+									<el-option v-for="one in userList"
+										:key="one.username"
+										:value="one.username"
+										:label="one.fullname"
+									>
+									</el-option>
+								</el-select>					
 							</el-form-item>
 						</el-col>
 						<el-col :span="7">

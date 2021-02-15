@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -36,14 +37,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService myUserDetailsService;
 	@Autowired
-	MyAuthenctiationSuccessHandler myAuthenctiationSuccessHandler;
-	@Autowired
     MyLogOutSuccessHandler myLogOutSuccessHandler;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		VerifyCodeFilter filter = new VerifyCodeFilter();
-
+		
 		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
 		.authorizeRequests()
 				.antMatchers("/captcha/**","/signOut",
@@ -60,7 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()
 				.loginPage("/login/login")
 				.loginProcessingUrl("/rrlogin")
-				.successHandler(myAuthenctiationSuccessHandler)
+				.successHandler(new MyAuthenticationSuccessHandler())
+				.failureHandler(new MyAuthenticationFailureHandler())
 				.permitAll()
 				.and()
 			.logout()
@@ -69,33 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			
 			.csrf().disable()
-			.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
-            @Override
-            public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-				String header = request.getHeader("X-Requested-With");  
-				boolean isAjax = "XMLHttpRequest".equals(header) ? true:false; 
-				String errorMessage = "";
-				String errorType = "";
-				if (authException instanceof AuthenticationServiceException) {
-					errorMessage = "请求失败，请联系管理员!";
-				} 
-				if(isAjax){
-					response.setContentType("application/json;charset=utf-8");
-					PrintWriter out = response.getWriter();
-					AjaxResult respBean = AjaxResult.error("errorMessage");
-					
-					out.write(new ObjectMapper().writeValueAsString(respBean));
-					out.flush();
-					out.close();
-				}else{
-					String contextPath = (request.getContextPath());
-					String url = contextPath + "/login/login?verify";
-
-					response.sendRedirect(url);
-
-				}
-            }
-        });
 		;
 	}
 	//认证用户的来源
@@ -110,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	// @Override
 	public PasswordEncoder passwordEncoder() {
-		return new MyPasswordEncoder();
+		return new RawPasswordEncoder();
 	}
 	@Bean
 	@Override

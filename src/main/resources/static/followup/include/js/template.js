@@ -5,25 +5,8 @@ var initdata = new Vue({
 		isShowEdit: false,
 		isAdd: true,
 		fullname:'',
-		tableData: [{
-				fullname: "张三",
-				sex: '男',
-				visitor: "张护士",
-				visitDate: "2019-01-01"
-			},
-			{
-				fullname: "张三",
-				sex: '男',
-				visitor: "张护士",
-				visitDate: "2019-01-01"
-			},
-			{
-				fullname: "张三",
-				sex: '男',
-				visitor: "张护士",
-				visitDate: "2019-01-01"
-			}
-		],
+		tableData: [],
+		userList: [],
 		currentPage: 1,
 		pageSize: 10,
 		totalNum: '',
@@ -34,7 +17,7 @@ var initdata = new Vue({
 			birthday: '',
 			address: '',
 			visitDate: null,
-			visitor:null,
+			nurseName:null,
 			temperature:36,
 			selfReported:'',
 			publicity:''
@@ -65,6 +48,9 @@ var initdata = new Vue({
 	},
 	mounted: function() {
 		var that = this;
+		axios.post(serverurl + 'api/user/list').then(function(res) {
+			that.userList = res.data.data;
+		})
 		this.loadtable();
 	},
 	methods: {
@@ -82,7 +68,7 @@ var initdata = new Vue({
 				temperature:36
 			},patient);
 			
-			this.isAdd = false;
+			this.isAdd = true;
 		},
 		//编辑
 		handleEdit: function(index, row) {
@@ -113,7 +99,7 @@ var initdata = new Vue({
 			this.form.nation='';
 			this.form.address=null;
 			this.form.visitDate= null;
-			this.form.visitor=null;
+			this.form.nurseName=null;
 			this.form.temperature=36;
 			this.form.selfReported='';
 			this.form.publicity='';
@@ -194,6 +180,13 @@ var initdata = new Vue({
 			//当前页码变化
 			this.currentPage = val;
 			this.loadtable();
+		},
+		nurseChange(newValue){
+			for(let i=0;i<this.userList.length;i++){
+				if(this.userList[i].username==newValue){
+					this.form.nurseFullname=this.userList[i].fullname;
+				}
+			}
 		}
 	}
 });

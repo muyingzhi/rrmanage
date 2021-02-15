@@ -7,7 +7,7 @@ server:
     context-path: /rr
 spring:
   profiles:
-    active: 
+    active: dev
   # 模板引擎
   thymeleaf:
     mode: HTML
@@ -44,3 +44,8 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+# 日志配置
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    com.bridge.record: info

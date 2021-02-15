@@ -28,7 +28,8 @@ public class PlanRecord {
     private String plan1Date  ;
     private String plan2Date  ;
     private String plan3Date  ;
-    private String nurseName ;
+    private String nurseName;
+    private String nurseFullname;
     private String expertName ;
     private String explantDate  ;
     private String createDate;

@@ -6,6 +6,7 @@ var initdata = new Vue({
 		isShowEdit: false,
 		isAdd:true,
 		tableData: [],
+		userList: [],
 		currentPage: 1,
 		pageSize: 10,
 		totalNum: '',
@@ -56,6 +57,9 @@ var initdata = new Vue({
 	},
 	mounted: function() {
 		var that = this;
+		axios.post(serverurl + 'api/user/list').then(function(res) {
+			that.userList = res.data.data;
+		})
 		this.loadtable();
 	},
 	methods: {
@@ -120,7 +124,7 @@ var initdata = new Vue({
 				this.form.examItems=row.examItems.split(";")
 			}
  			this.isShowEdit = true;
-			this.isadd = false;
+			this.isAdd = false;
 		},
 		saveEdit: function(formName) {
 			var that = this;
@@ -202,6 +206,13 @@ var initdata = new Vue({
 			//当前页码变化
 			this.currentPage = val;
 			this.loadtable();
+		},
+		nurseChange(newValue){
+			for(let i=0;i<this.userList.length;i++){
+				if(this.userList[i].username==newValue){
+					this.form.nurseFullname=this.userList[i].fullname;
+				}
+			}
 		}
 	}
 });

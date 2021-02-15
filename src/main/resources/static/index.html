@@ -31,7 +31,7 @@
             <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
           </a>
           <a href="javascript:;" class="logo">
-            记录助手
+            客户管理
           </a>
         </ul>
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
@@ -78,8 +78,8 @@
         <div class="layui-side-scroll">
           <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
             lay-filter="layadmin-system-side-menu">
-            <li data-name="home" class="layui-nav-item layui-this">
-              <a lay-href="home/index" lay-tips="首页" lay-direction="1">
+            <li data-name="home" class="layui-nav-item layui-this" style="display: none;">
+              <a lay-href="home/index" lay-tips="" lay-direction="1">
                 <i class="layui-icon"><img src="include/images/home.png" /></i>
                 <cite>首页</cite>
               </a>
@@ -102,7 +102,7 @@
                 <cite>客户回访记录</cite>
               </a>
             </li>
-            <li data-name="zhibiao" class="layui-nav-item">
+            <li data-name="zhibiao" class="layui-nav-item" style="display:none">
               <a lay-href="summary/index" lay-tips="客户情况摘要" lay-direction="1">
                 <i class="layui-icon"><img src="include/images/zidian.png" /></i>
                 <cite>客户情况摘要</cite>
@@ -139,7 +139,7 @@
       <!-- 主体内容 -->
       <div class="layui-body" id="LAY_app_body">
         <div class="layadmin-tabsbody-item layui-show">
-          <iframe src="home/index.html" frameborder="0" class="layadmin-iframe"></iframe>
+          <iframe src="home/index" frameborder="0" class="layadmin-iframe"></iframe>
         </div>
       </div>
 

@@ -16,7 +16,7 @@
   </sql>
   <select id="findByFullname" resultType="com.bridge.record.model.PlanRecord">
     SELECT
-    a.patientid,a.fullname,a.sex,a.nation,t.*
+    a.patientid,a.fullname,a.sex,a.nation,a.birthday,t.*
     FROM rr_plan_record t left join rr_baseinfo_record a on t.patientid=a.patientid
     WHERE a.fullname like #{fullname}
   </select>

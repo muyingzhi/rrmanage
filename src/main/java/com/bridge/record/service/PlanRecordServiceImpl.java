@@ -29,4 +29,9 @@ public class PlanRecordServiceImpl {
     public int deleteByPrimaryKey(long id){
         return mapper.deleteByPrimaryKey(Long.valueOf(id));
     }
+    public int count(){
+        PlanRecord record=new PlanRecord();
+
+        return mapper.selectCount(record);
+    }
 }

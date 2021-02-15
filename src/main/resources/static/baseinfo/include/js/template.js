@@ -11,6 +11,8 @@ var initdata = new Vue({
 		totalNum: '',
 		dialogVisible: false,
 		isAdd: true,
+		userList:[],
+		dictNation:[{itemCode:"01",itemName:"汉族"},{itemCode:"02",itemName:"回族"},{itemCode:"03",itemName:"藏族"},{itemCode:"04",itemName:"维吾尔族"},{itemCode:"05",itemName:"蒙古族"},{itemCode:"99",itemName:"其它"}],
 		form: {
 			id: '',
 			patientid:'',
@@ -122,6 +124,10 @@ var initdata = new Vue({
 	},
 	mounted: function() {
 		var that = this;
+		axios.post(serverurl + 'api/user/list').then(function(res) {
+			that.userList = res.data.data;
+		})
+
 		this.loadtable();
 	},
 	methods: {
@@ -335,6 +341,13 @@ var initdata = new Vue({
 		},
 		edittx: function() {
 			this.txdialogVisible = true;
+		},
+		nurseChange(newValue){
+			for(let i=0;i<this.userList.length;i++){
+				if(this.userList[i].username==newValue){
+					this.form.nurseFullname=this.userList[i].fullname;
+				}
+			}
 		}
 	}
 });

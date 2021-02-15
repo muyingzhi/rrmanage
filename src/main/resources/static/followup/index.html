@@ -32,6 +32,11 @@
 				</el-table-column>
 				<el-table-column type="index" width="50" label="序号">
 				</el-table-column>
+				<el-table-column label="档案编号">
+					<template slot-scope="scope">
+						<span>{{ scope.row.patientid }}</span>
+					</template>
+				</el-table-column>
 				<el-table-column label="姓名">
 					<template slot-scope="scope">
 						<span>{{ scope.row.fullname }}</span>
@@ -44,7 +49,7 @@
 				</el-table-column>
 				<el-table-column label="回访人">
 					<template slot-scope="scope">
-						<span>{{ scope.row.visitor }}</span>
+						<span>{{ scope.row.nurseFullname }}</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="回访日期">
@@ -120,7 +125,15 @@
 					<el-row :gutter="10">
 						<el-col :span="8">
 							<el-form-item label="签名">
-								<el-input v-model="form.visitor" placeholder="请输入" size="small"></el-input>
+								<el-select v-model="form.nurseName" placeholder="请选择" size="mini"
+								@change="nurseChange">
+									<el-option v-for="one in userList"
+										:key="one.username"
+										:value="one.username"
+										:label="one.fullname"
+									>
+									</el-option>
+								</el-select>
 							</el-form-item>
 						</el-col>
 					</el-row>

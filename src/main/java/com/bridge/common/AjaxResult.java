@@ -2,6 +2,8 @@ package com.bridge.common;
 
 import java.io.Serializable;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.google.gson.Gson;
 
 import io.swagger.annotations.ApiModel;
@@ -240,9 +242,9 @@ public class AjaxResult<T> implements Serializable
         return  gs.toJson(this);
     }
     
-	/*
-	 * @Override public String toString() { return new
-	 * ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE) .append("code",
-	 * getCode()) .append("msg", getMsg()) .append("data", getData()) .toString(); }
-	 */
+    public static boolean isAjaxRequest(HttpServletRequest request){  
+        String header = request.getHeader("X-Requested-With");  
+        boolean isAjax = "XMLHttpRequest".equals(header) ? true:false;  
+        return isAjax;  
+    } 
 }

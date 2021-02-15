@@ -57,6 +57,11 @@
 					<span>{{ scope.row.nation }}</span>
 				</template>
 			</el-table-column>
+			<el-table-column label="护士">
+				<template slot-scope="scope">
+					<span>{{ scope.row.nurseFullname }}</span>
+				</template>
+			</el-table-column>
 			<el-table-column label="填表日期">
 				<template slot-scope="scope">
 					<span>{{ scope.row.createDate }}</span>
@@ -125,7 +130,14 @@
 					</el-col>
 					<el-col :span="6">
 						<el-form-item label="民族" prop="nation">
-							<el-input v-model="form.nation" placeholder="请输入" size="mini"></el-input>
+							<el-select v-model="form.nation" placeholder="请选择" size="mini">
+								<el-option v-for="one in dictNation"
+									:key="one.itemCode"
+									:value="one.itemName"
+									:label="one.itemName"
+								>
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -727,7 +739,15 @@
 					</el-col>
 					<el-col :span="6">
 						<el-form-item label="护士签名">
-							<el-input v-model="form.nurseName" placeholder="请输入" size="mini"></el-input>
+							<el-select v-model="form.nurseName" placeholder="请选择" size="mini"
+							@change="nurseChange">
+								<el-option v-for="one in userList"
+									:key="one.username"
+									:value="one.username"
+									:label="one.fullname"
+								>
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="5">

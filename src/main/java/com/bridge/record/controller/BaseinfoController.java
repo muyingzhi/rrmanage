@@ -1,8 +1,6 @@
 package com.bridge.record.controller;
 
 import java.security.Principal;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.bridge.common.AjaxResult;
@@ -22,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/api/baseinfo")
@@ -46,8 +42,7 @@ public class BaseinfoController {
     @PostMapping("/new")
     public AjaxResult<BaseinfoRecord> addnew(HttpServletRequest request){
         Principal principal = request.getUserPrincipal();
-        BaseinfoRecord record = new BaseinfoRecord();
-        record.setNurseName(principal.getName());
+        BaseinfoRecord record = baseinfoService.createOne(principal.getName());
         return AjaxResult.success(record);
     }
     @PostMapping("/save")

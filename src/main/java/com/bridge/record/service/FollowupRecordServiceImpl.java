@@ -28,4 +28,9 @@ public class FollowupRecordServiceImpl {
     public int deleteByPrimaryKey(long id){
         return mapper.deleteByPrimaryKey(Long.valueOf(id));
     }
+    public int count(){
+        FollowupRecord record=new FollowupRecord();
+
+        return mapper.selectCount(record);
+    }
 }
