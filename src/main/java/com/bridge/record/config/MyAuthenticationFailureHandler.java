@@ -27,7 +27,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
             PrintWriter out = response.getWriter();
             AjaxResult<String> respBean = AjaxResult.error("登录失败："+exception.getMessage());
             
-            out.write(new ObjectMapper().writeValueAsString(respBean));
+            out.write(respBean.toString());
             out.flush();
             out.close();        
         }else{

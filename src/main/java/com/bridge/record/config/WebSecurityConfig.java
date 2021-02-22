@@ -30,7 +30,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.security.web.header.HeaderWriterFilter;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -38,18 +39,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService myUserDetailsService;
 	@Autowired
     MyLogOutSuccessHandler myLogOutSuccessHandler;
-
+	@Autowired
+	AjaxAuthenticationEntryPoint authenticationEntryPoint;
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		VerifyCodeFilter filter = new VerifyCodeFilter();
-		
+
 		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
 		.authorizeRequests()
 				.antMatchers("/captcha/**","/signOut",
 					"/login/**"
 					,"/include/**"
+					,"/order/appoint"
+					,"/order/include/**"
+					,"/service/appoint"
 					,"/mock/**","/home/**","/baseinfo/**","/plan/**"
-					,"/followup/**","/summary/**").permitAll()
+					,"/followup/**","/nursing/**","/summary/**").permitAll()
 				.antMatchers("/api/**")
 				.hasRole("USER")
 				.anyRequest().authenticated()
@@ -66,8 +71,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout()
 				.logoutUrl("/signOut")
 				.permitAll()
+				.and().exceptionHandling()
+				.authenticationEntryPoint(authenticationEntryPoint)  //AccessDeniedHandler
 				.and()
-			
 			.csrf().disable()
 		;
 	}
@@ -90,6 +96,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public UserDetailsService userDetailsService() {
 		return myUserDetailsService;
 	}
-
 	
 }

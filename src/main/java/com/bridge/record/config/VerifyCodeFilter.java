@@ -1,6 +1,7 @@
 package com.bridge.record.config;
 
 import java.io.IOException;
+import java.security.Principal;
 
 import javax.servlet.FilterChain;
 import javax.servlet.GenericFilter;
@@ -21,6 +22,7 @@ public class VerifyCodeFilter extends GenericFilter {
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest)req;
         HttpServletResponse response = (HttpServletResponse)resp;
+        
         if("/rrlogin".equals(request.getServletPath())){
             String requestCode = request.getParameter("verifyCode");
             String genCode = (String)request.getSession().getAttribute("verify");

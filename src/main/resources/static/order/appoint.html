@@ -1,0 +1,113 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link rel="stylesheet" href="../include/element/index.css" media="all">
+		<link rel="stylesheet" href="../include/style/common.css" media="all">
+		<link rel="stylesheet" href="../include/style/tableList.css">
+		<style>
+			.el-date-editor.el-input{width:150px;}
+		</style>
+	</head>
+
+	<body>
+		<div class="cont">
+				<el-form :model="form" :rules="rules" label-width="100px" label-position="right" ref="form">
+					<el-row :gutter="10">
+						<el-col :span="12" :offset="8">
+								<h3>通化市东昌区医院</h3>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :span="12" :offset="9" >
+								<h2 style="margin:10px;">预约就诊</h2>
+						</el-col>
+					</el-row>
+					
+					<el-row :gutter="10">
+						<el-col :span="24">
+							<el-form-item label="姓名">						
+								<el-input type="input" v-model="form.fullname"  size="mini" ></el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :span="24">
+							<el-form-item label="电话号码">						
+								<el-input type="input" v-model="form.telphone" size="mini" ></el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :span="24">
+							<el-form-item label="身份证号">						
+								<el-input type="input" v-model="form.cardno"  size="mini" ></el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :span="24">
+							<el-form-item label="就诊科室">		
+								<el-select v-model="form.dept" placeholder="请选择" size="mini">
+									<el-option :key="'dept1'" :value="'内科'" :label="'内科'"></el-option>
+									<el-option :key="'dept2'" :value="'外科'" :label="'外科'"></el-option>
+									<el-option :key="'dept3'" :value="'肿瘤科'" :label="'肿瘤科'"></el-option>
+									<el-option :key="'dept4'" :value="'放射科'" :label="'放射科'"></el-option>
+								</el-select>					
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :span="24">
+							<el-form-item label="预约日期">
+								<el-date-picker
+									v-model="form.examDate"
+									type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
+									placeholder="选择日期"
+									size="mini">
+									</el-date-picker>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :span="24">
+							<el-form-item label="时段">		
+								<el-select v-model="form.noon" placeholder="请选择" size="mini">
+									<el-option :key="'noon1'" :value="'上午'" :label="'上午'"></el-option>
+									<el-option :key="'noon2'" :value="'下午'" :label="'下午'"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					
+					<el-row :gutter="10">
+						<el-col :span="20" :offset="4">
+							<a class="bluebtn mr20" @click="saveEdit('form')" v-if="isAdd">保存</a>
+							<a class="bluebtn mr20" @click="saveEdit('form')" v-else>保存</a>
+							<a class="graybtn_b" @click="isShowEdit = false">取消</a>
+						</el-col>
+					</el-row>
+				</el-form>
+				
+				<el-row :gutter="10">
+					<el-col :span="24" >
+							<h4 style="margin:10px;">为了给您提供更好的服务，请您如实填写预约信息。到我院就诊时，请提供预约时填写的电话号码和身份证号。</h4>
+					</el-col>
+				</el-row>
+		</div>
+		<script src="../include/lib/polyfill.min.js"></script>
+		<script src="../include/lib/browser.min.js"></script>
+		<script src="../include/lib/jquery-1.11.0.min.js"></script>
+		<script src="../include/lib/vue.min.js"></script>
+		<script src="../include/element/index.js"></script>
+		<script src="../include/lib/axios.min.js"></script>
+		<script src="../include/lib/config.js"></script>
+		<script src="include/js/appoint.js"></script>
+	</body>
+</html>

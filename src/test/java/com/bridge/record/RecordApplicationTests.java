@@ -1,7 +1,5 @@
 package com.bridge.record;
 
-import java.util.Date;
-
 import com.bridge.record.model.BaseinfoRecord;
 import com.bridge.record.model.FollowupRecord;
 import com.bridge.record.model.PlanRecord;
@@ -16,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
-import cn.hutool.core.util.IdUtil;
-
 @MapperScan(basePackages="com.bridge.record.dao.mapper")
 @SpringBootTest
 class RecordApplicationTests {
@@ -29,13 +25,13 @@ class RecordApplicationTests {
 	private BaseinfoRecordServiceImpl baseinfoService;
 	@Test
 	void planTest() {
-		PlanRecord record = new PlanRecord();
-		record.setPatientid("patientid");
-		record.setExpertName("expertName");
-		record.setExplantDate("2020-01-01");
-		service.save(record);
+		// PlanRecord record = new PlanRecord();
+		// record.setPatientid("patientid");
+		// record.setExpertName("expertName");
+		// record.setExplantDate("2020-01-01");
+		// service.save(record);
 
-		Iterable<PlanRecord> it = service.getByFullname("");
+		Iterable<PlanRecord> it = service.getByFullname("六");
 		int size = Lists.newArrayList(it).size();
 		
 		Assert.isTrue(size>0,"查询无数据");

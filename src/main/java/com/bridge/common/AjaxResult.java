@@ -1,6 +1,7 @@
 package com.bridge.common;
 
 import java.io.Serializable;
+import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -242,9 +243,15 @@ public class AjaxResult<T> implements Serializable
         return  gs.toJson(this);
     }
     
-    public static boolean isAjaxRequest(HttpServletRequest request){  
-        String header = request.getHeader("X-Requested-With");  
-        boolean isAjax = "XMLHttpRequest".equals(header) ? true:false;  
+    public static boolean isAjaxRequest(HttpServletRequest request){ 
+        Principal principal = request.getUserPrincipal();
+        System.out.println("------"+request.getServletPath()+(principal!=null?principal.getName():"未登录"));
+ 
+        // String header = request.getHeader("X-Requested-With");  
+
+        String accept = request.getHeader("Accept");  
+        // boolean isAjax = "XMLHttpRequest".equals(header) ? true:false;  
+        boolean isAjax = accept.indexOf("application/json")>=0?true:false;
         return isAjax;  
     } 
 }
