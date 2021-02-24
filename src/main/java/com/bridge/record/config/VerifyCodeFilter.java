@@ -1,7 +1,6 @@
 package com.bridge.record.config;
 
 import java.io.IOException;
-import java.security.Principal;
 
 import javax.servlet.FilterChain;
 import javax.servlet.GenericFilter;
@@ -10,12 +9,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 public class VerifyCodeFilter extends GenericFilter {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
