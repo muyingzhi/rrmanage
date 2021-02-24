@@ -30,6 +30,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class SysUserController {
     @Autowired
     private UserDetailsServiceImpl userService;
+    @PostMapping("/nurse/list")
+    public AjaxResult<Iterable<SysUser>> getNurseList(){
+        Iterable<SysUser> its= userService.getNurse();
+        return AjaxResult.success(its);
+    }
     @PostMapping("/list")
     public AjaxResult<PageResponse<SysUser>> getPageList(
         @RequestParam String fullname,
