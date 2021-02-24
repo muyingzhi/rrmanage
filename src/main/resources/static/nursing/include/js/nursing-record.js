@@ -8,16 +8,12 @@
  * 
  */
 var selectPatientWidget = Vue.component('nursing-record', {
-    props:{
-		datas:[],
-		userList: [],
-		nursingType:1
-	},
+    props:["patientid","nursingType","userList"],
     data: function () {
       return {
         list: [],
         selectedOne:{},
-		form:{fullname:""},
+		form:{id:"",nursingDate:'',items:"",nursingNote:"",nurseFullname:"",nurseName:""},
 		currentPage:0,
 		pageSize:10,
 		totalNum:0,
@@ -28,9 +24,9 @@ var selectPatientWidget = Vue.component('nursing-record', {
 	template: `
 			<div>
 			<span>
-				<a class="bluebtn mr20" @click="isShowEdit=true">新增记录</a>
+				<a class="bluebtn mr20" @click="newRecord">新增记录</a>
 			</span>
-				<el-table :data="datas" style="width: 100%" stripe="true">
+				<el-table :data="list" style="width: 100%" stripe="true">
 					</el-table-column>
 						<el-table-column type="index" width="50" label="序号">
 					</el-table-column>
@@ -118,42 +114,108 @@ var selectPatientWidget = Vue.component('nursing-record', {
 			</div>
               `,
     mounted: function () {
+		console.log("mounted"+this.nursingType)
+		this.loadtable();
     },
     watch: {
-      chartData: {
-        handler: function(newData){
-  
-        }
-      }
+		patientid(){
+			console.log("watch"+this.nursingType)
+
+			this.loadtable();
+    	}
     },
     methods: {
-		handleDelete:function(index,record){
-			this.$emit("delete",record,this.nursingType)
+		initform(){
+			this.form={id:"",patientid:"",nursingDate:'',items:"",nursingNote:"",nurseFullname:"",nurseName:""}
 		},
-		handleEdit(){
+		newRecord(){
+			this.initform();
+			this.isShowEdit=true;
+		},
+		handleEdit(index, row){
+			this.initform();
+			this.form = Object.assign(this.form, row);
 			this.isShowEdit = true
 		},
-		loadpatient: function() {
+		loadtable: function() {
 			var that = this;
-			var tmp = {
-				fullname:this.form.fullname?this.form.fullname:'',
-				pageNum: this.currentPage,
-				pageSize: this.pageSize,
-			};
-			axios.post(serverurl + 'api/baseinfo/list?fullname='+tmp.fullname,tmp).then(function(res) {
-				that.totalNum = res.data.data.total;
-				that.list = res.data.data.pageData;
-				
+			
+			axios.post(serverurl + 'api/nursing/list?patientid='+this.patientid+"&nursingType="+this.nursingType).then(function(res) {
+				that.list = res.data.data;
 			});
 		},
-		handleSizeChange: function(val) {
-			this.pageSize = val;
-			this.currentPage = 1;
-			this.loadtable();
+		saveEdit(formName){
+			var that = this;
+			this.$refs[formName].validate(function(valid) {
+				if (valid) {
+					var data = Object.assign(
+						{}, that.form,
+						{patientid:that.patientid,
+							nursingType:that.nursingType});
+					// var ss="";
+					// for(var i=0;i<data.examItems.length;i++){
+					// 	ss+=data.examItems[i]+";";
+					// }
+					// if(ss.endsWith(";")){
+					// 	ss= ss.substr(0,ss.length -1);
+					// }
+					// data.examItems=ss;
+						
+					axios({
+						method: 'post',
+						url: serverurl + 'api/nursing/save',
+						data: data
+					}).then(
+						function(res) {
+							if (res.data.code == 500) {
+								that.$message({
+									type: 'info',
+									message: res.data.msg
+								});
+								return;
+							}
+							that.$message({
+								type: 'success',
+								message: "保存成功"
+							});
+							that.loadtable();
+							that.isShowEdit = false;
+						});
+				} else {
+					that.$message({
+						type: 'warn',
+						message: "请检查输入内容"
+					});
+					return false;
+				}
+			});
+
 		},
-		handleCurrentChange: function(val) {
-			this.currentPage = val;
-			this.loadtable();
+		handleDelete: function(index, row) {
+			//删除当前行
+			var that = this;
+			this.$confirm('您确定要删除该记录吗?', '提示', {
+				cancelButtonText: '取消',
+				confirmButtonText: '确定',
+				type: 'warning'
+			}).then(function() {
+				axios.delete(serverurl + 'api/nursing/' + row.id).then(
+					function(res) {
+						if (res.data.code == 0) {
+							that.loadtable();
+							that.$message({
+								type: 'success',
+								message: '删除成功'
+							});
+						}
+					});
+		
+			}).catch(function() {
+				that.$message({
+					type: 'info',
+					message: '已取消删除'
+				});
+			});
 		},
 		nurseChange(newValue){
 			for(let i=0;i<this.userList.length;i++){

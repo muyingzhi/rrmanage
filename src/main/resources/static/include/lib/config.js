@@ -54,9 +54,11 @@ axios.interceptors.response.use(function (response) {
 
 
 
-// var serverurl = "http://211.144.5.80:30117/platform_system/";
+// var serverurl = "http://211.144.5.80:30117/rr/";
 // var serverurl = "http://localhost:5500/";
 var serverurl = "http://localhost:8081/rr/";
+// var serverurl = "http://192.168.2.101:8081/rr/";
+
 
 
 String.prototype.getParam = function (key) {

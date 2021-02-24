@@ -141,8 +141,8 @@ CREATE TABLE `sys_user`  (
 INSERT INTO `sys_user` VALUES (1, 'muyz', '123','穆英智', 1);
 INSERT INTO `sys_user` VALUES (2, 'admin', '666666','管理员', 2);
 INSERT INTO `sys_user` VALUES (3, 'zhs', '666666', '张护士',4);
-DROP TABLE IF EXISTS sys_permission;
 
+DROP TABLE IF EXISTS sys_permission;
 CREATE TABLE `sys_permission`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '权限表主键',
   `permission_name` varchar(50) NOT NULL COMMENT '权限名',
@@ -153,3 +153,34 @@ CREATE TABLE `sys_permission`  (
 INSERT INTO `sys_permission` VALUES (1, 'user:*', 1);
 INSERT INTO `sys_permission` VALUES (2, 'user:*', 2);
 INSERT INTO `sys_permission` VALUES (3, 'user:queryAll', 3);
+
+DROP TABLE IF EXISTS rr_nursing_record;
+
+CREATE TABLE `rr_nursing_record`
+(
+    id int(11) NOT NULL auto_increment,
+    patientid  varchar(20) not null,
+    nursing_type varchar(4),
+    nursing_date date,
+    items VARCHAR(200),
+    nursing_note VARCHAR(200),
+    nurse_fullname VARCHAR(20),
+    nurse_name VARCHAR(20),
+    is_fee VARCHAR(2),
+    operator VARCHAR(20),
+    checker VARCHAR(20),
+    somethings VARCHAR(100),
+    do_time VARCHAR(40),
+    PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS rr_dictionary;
+
+CREATE TABLE `rr_dictionary`
+(
+    id int(11) NOT NULL auto_increment,
+    title VARCHAR(20),
+    item_code VARCHAR (20),
+    item_value VARCHAR (50),
+    PRIMARY KEY (`id`)
+);

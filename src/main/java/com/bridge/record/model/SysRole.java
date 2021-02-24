@@ -2,11 +2,14 @@ package com.bridge.record.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import lombok.Data;
+
+@Data
 public class SysRole implements GrantedAuthority {
-    private String roleid;
+    private Integer roleid;
     private String roleName;
 
-    public SysRole(String id, String name){
+    public SysRole(int id, String name){
         roleid=id;
         roleName=name;
     }

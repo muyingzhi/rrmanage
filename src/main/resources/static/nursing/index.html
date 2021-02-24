@@ -93,19 +93,20 @@
 						<el-col :span="8">档案号：{{form.patientid}}
 						</el-col>
 					</el-row>
+					
 					<el-row :gutter="10">
 						<el-tabs v-model="activeName" @tab-click="handleClick"tab-position="top" type="border-card">
 							<el-tab-pane label="细胞深度净化护理" name="first">
-								<nursing-record :nursing-type="1" :user-list="userList" :datas="firstDatas" :nursingType="'1'" @delete="deleteRecord"></nursing-record>
+								<nursing-record :patientid="form.patientid" :nursing-type="1" :user-list="userList" :nursingType="'1'" @delete="deleteRecord"></nursing-record>
 							</el-tab-pane>
 							<el-tab-pane label="细胞回输护理" name="second">
-								<nursing-record :nursing-type="2" :user-list="userList" :datas="secondDatas" :nursingType="'2'" @delete="deleteRecord"></nursing-record>
+								<nursing-record :patientid="form.patientid" :nursing-type="2" :user-list="userList" :nursingType="'2'" @delete="deleteRecord"></nursing-record>
 							</el-tab-pane>
 							<el-tab-pane label="早期防癌检测方案记录" name="third">
-								<nursing-plan1 :user-list="userList"  @delete="deleteRecord"></nursing-plan1>
+								<nursing-plan1 :patientid="form.patientid" :user-list="userList"  @delete="deleteRecord"></nursing-plan1>
 							</el-tab-pane>
 							<el-tab-pane label="细胞干预方案记录" name="fourth">
-								<nursing-plan2 :user-list="userList"  @delete="deleteRecord"></nursing-plan2>
+								<nursing-plan2 :patientid="form.patientid" :user-list="userList"  @delete="deleteRecord"></nursing-plan2>
 							</el-tab-pane>
 						</el-tabs>
 					</el-row>

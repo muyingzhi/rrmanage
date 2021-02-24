@@ -6,12 +6,14 @@
  */
 var selectPatientWidget = Vue.component('nursing-plan2', {
     props:{
+		patientid:""
 	},
     data: function () {
       return {
         list: [],
+		nursingType:4,
         selectedOne:{},
-		form:{fullname:""},
+		form:{id:"",nursingDate:'',items:"",isFee:true,operator:"",checker:"",doTime:""},
 		currentPage:0,
 		pageSize:10,
 		totalNum:0,
@@ -21,40 +23,40 @@ var selectPatientWidget = Vue.component('nursing-plan2', {
 	template: `
 			<div>
 				<span>
-					<a class="bluebtn mr20" @click="isShowEdit=true">新增记录</a>
+					<a class="bluebtn mr20" @click="newRecord">新增记录</a>
 				</span>
 				<el-table :data="list" style="width: 100%" stripe="true">
 					</el-table-column>
 						<el-table-column type="index" width="50" label="序号">
 					</el-table-column>
-					<el-table-column label="输液日期">
+					<el-table-column label="输液日期" width="100">
 						<template slot-scope="scope">
-							<span>{{ scope.row.fullname }}</span>
+							<span>{{ scope.row.nursingDate }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column label="项目">
 						<template slot-scope="scope">
-							<span>{{ scope.row.sex }}</span>
+							<span>{{ scope.row.items }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column label="收费">
 						<template slot-scope="scope">
-							<span>{{ scope.row.birthday }}</span>
+							<span>{{ scope.row.isFee?"已收费":"未收费" }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column label="执行人">
 						<template slot-scope="scope">
-							<span>{{ scope.row.address }}</span>
+							<span>{{ scope.row.operator }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column label="核对人">
 						<template slot-scope="scope">
-							<span>{{ scope.row.address }}</span>
+							<span>{{ scope.row.checker }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column label="输液时间">
 						<template slot-scope="scope">
-							<span>{{ scope.row.address }}</span>
+							<span>{{ scope.row.doTime }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" width="150" fixed="right" align="center">
@@ -92,28 +94,29 @@ var selectPatientWidget = Vue.component('nursing-plan2', {
 						<el-row :gutter="10">
 							<el-col :span="24">
 								<el-form-item label="是否收费">						
-									<el-input type="input" v-model="form.items" size="mini"></el-input>
+									<el-radio v-model="form.isFee" :label="true">已收费</el-radio>
+									<el-radio v-model="form.isFee" :label="false">未收费</el-radio>	
 								</el-form-item>
 							</el-col>
 						</el-row>
 						<el-row :gutter="10">
 							<el-col :span="24">
 								<el-form-item label="执行人">						
-									<el-input type="input" v-model="form.nursingNote" size="mini"></el-input>
+									<el-input type="input" v-model="form.operator" size="mini"></el-input>
 								</el-form-item>
 							</el-col>
 						</el-row>
 						<el-row :gutter="10">
 							<el-col :span="24">
 								<el-form-item label="核对人">						
-									<el-input type="input" v-model="form.nursingNote" size="mini"></el-input>
+									<el-input type="input" v-model="form.checker" size="mini"></el-input>
 								</el-form-item>
 							</el-col>
 						</el-row>
 						<el-row :gutter="10">
 							<el-col :span="24">
 								<el-form-item label="输液时间">						
-									<el-input type="input" v-model="form.nursingNote" size="mini"></el-input>
+									<el-input type="input" v-model="form.doTime" size="mini"></el-input>
 								</el-form-item>
 							</el-col>
 						</el-row>
@@ -126,51 +129,106 @@ var selectPatientWidget = Vue.component('nursing-plan2', {
 				</el-dialog>
 			</div>
               `,
-    mounted: function () {
-		this.list=[{},{},{}];
-    },
-    watch: {
-      chartData: {
-        handler: function(newData){
-  
-        }
-      }
-    },
+	mounted: function () {
+		this.loadtable();
+	},
+	watch: {
+		patientid(){		
+			this.loadtable();
+		}
+	},
     methods: {
-		handleEdit(index,pat){
-			this.isShowEdit=true
+		initform(){
+			this.form={id:"",patientid:"",isFee:true,nursingDate:'',items:"",nursingNote:"",nurseFullname:"",nurseName:"",doTime:""}
 		},
-		handleDelete(index,record){
-			this.$emit("delete",record,3)
+		newRecord(){
+			this.initform();
+			this.isShowEdit=true;
 		},
-		loadpatient: function() {
+		handleEdit(index, row){
+			this.initform();
+			this.form = Object.assign(this.form, row);
+			this.isShowEdit = true
+		},
+		loadtable: function() {
 			var that = this;
-			var tmp = {
-				fullname:this.form.fullname?this.form.fullname:'',
-				pageNum: this.currentPage,
-				pageSize: this.pageSize,
-			};
-			axios.post(serverurl + 'api/baseinfo/list?fullname='+tmp.fullname,tmp).then(function(res) {
-				that.totalNum = res.data.data.total;
-				that.list = res.data.data.pageData;
-				
+			
+			axios.post(serverurl + 'api/nursing/list?patientid='+this.patientid+"&nursingType="+this.nursingType).then(function(res) {
+				that.list = res.data.data;
 			});
 		},
-		handleSizeChange: function(val) {
-			this.pageSize = val;
-			this.currentPage = 1;
-			this.loadtable();
-		},
-		handleCurrentChange: function(val) {
-			this.currentPage = val;
-			this.loadtable();
-		},
-		nurseChange(newValue){
-			for(let i=0;i<this.userList.length;i++){
-				if(this.userList[i].username==newValue){
-					this.form.nurseFullname=this.userList[i].fullname;
+		saveEdit(formName){
+			var that = this;
+			this.$refs[formName].validate(function(valid) {
+				if (valid) {
+					var data = Object.assign(
+						{}, that.form,
+						{patientid:that.patientid,
+							nursingType:"4"});
+					// var ss="";
+					// for(var i=0;i<data.examItems.length;i++){
+					// 	ss+=data.examItems[i]+";";
+					// }
+					// if(ss.endsWith(";")){
+					// 	ss= ss.substr(0,ss.length -1);
+					// }
+					// data.examItems=ss;
+						
+					axios({
+						method: 'post',
+						url: serverurl + 'api/nursing/save',
+						data: data
+					}).then(
+						function(res) {
+							if (res.data.code == 500) {
+								that.$message({
+									type: 'info',
+									message: res.data.msg
+								});
+								return;
+							}
+							that.$message({
+								type: 'success',
+								message: "保存成功"
+							});
+							that.loadtable();
+							that.isShowEdit = false;
+						});
+				} else {
+					that.$message({
+						type: 'warn',
+						message: "请检查输入内容"
+					});
+					return false;
 				}
-			}
+			});
+
+		},
+		handleDelete: function(index, row) {
+			//删除当前行
+			var that = this;
+			this.$confirm('您确定要删除该记录吗?', '提示', {
+				cancelButtonText: '取消',
+				confirmButtonText: '确定',
+				type: 'warning'
+			}).then(function() {
+				axios.delete(serverurl + 'api/nursing/' + row.id).then(
+					function(res) {
+						if (res.data.code == 0) {
+							that.loadtable();
+							that.$message({
+								type: 'success',
+								message: '删除成功'
+							});
+						}
+					});
+		
+			}).catch(function() {
+				that.$message({
+					type: 'info',
+					message: '已取消删除'
+				});
+			});
 		}
     }
   })

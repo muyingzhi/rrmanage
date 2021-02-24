@@ -1,5 +1,6 @@
 
 server:
+  address: 0.0.0.0
   # 服务器的HTTP端口
   port: 8081
   servlet:

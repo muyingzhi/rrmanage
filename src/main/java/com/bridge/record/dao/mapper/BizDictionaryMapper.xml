@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bridge.record.dao.BizDictionaryMapper">
+  <select id="getList" parameterType="com.bridge.record.model.BizDictionary" resultType="com.bridge.record.model.BizDictionary">
+    select *
+    from rr_dictionary
+    where 1=1
+    <if test="title!=null and title!=''">
+      and title = #{title}
+    </if>
+    <if test="itemValue!=null and itemValue!=''">
+      and item_value  like CONCAT('%',#{itemValue},'%')
+    </if>
+  </select>
+  <select id="getDictListByType" resultType="com.bridge.record.model.BizDictionary">
+    select * from rr_dictionary
+    where 1=1
+    <if test="title!=null and title!=''">
+      and title = #{title}
+    </if>
+  </select>
+</mapper>

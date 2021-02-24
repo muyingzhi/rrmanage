@@ -13,38 +13,14 @@ var initdata = new Vue({
 		totalNum: '',
 		form: {
 			id: '',
+			patientid:"",
 			nursingDate: '',
 			items: '',
 			nursingNote: '',
 			nurseName: '',
 		},
 		activeName: 'first',
-		firstDatas:[{nursingDate:"2021-02-02",items:"一级护理",nursingNote:"xxxasdoasdfadfasdfasdfasdfasdf",nurseName:"liu",nurseFullname:"刘护士"},{},{}],
-		secondDatas:[{nursingDate:"2021-02-02",items:"一级护理",nursingNote:"xxxasdoasdfadfasdfasdfasdfasdf",nurseName:"liu",nurseFullname:"刘护士"},{},{}],
-		thirdDatas:[],
-		forthDatas:[],
-		rules: {
-			name: [{
-					required: true,
-					message: '请输入名称',
-					trigger: 'blur'
-				},
-				{
-					max: 30,
-					message: '最多输入30个字符'
-				}
-			],
-			type: [{
-					required: true,
-					message: '请输入类型',
-					trigger: 'blur'
-				},
-				{
-					max: 30,
-					message: '最多输入30个字符'
-				}
-			]
-		}
+		
 	},
 	mounted: function() {
 		var that = this;
@@ -87,9 +63,9 @@ var initdata = new Vue({
 			//当前行记录赋值给form，显示编辑窗口
 			this.initform();
 			this.form = Object.assign(this.form, row);
-
 			this.isShowEdit = true;
 			this.isAdd = false;
+			this.activeName="first";
 		},
 		loadtable: function() {
 			//----查询，根据姓名获取客户列表

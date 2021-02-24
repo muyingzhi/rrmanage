@@ -25,8 +25,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         SysUser user=new SysUser();
         user.setUsername(username);
         user = userMapper.selectOne(user);
+        if(user.getRoleId()==null){
+            throw new RuntimeException("角色未设置");
+        }
         //---构建符合接口的UserDetail
-        roles.add(new SysRole("001","USER"));
+        roles.add(new SysRole(user.getRoleId(),"USER"));
         user.setRoles(roles); 
         //---返回用户，将进行密码比较       
         System.out.println("serviceimpl-----load user:"+username);
@@ -35,6 +38,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public List<SysUser> getAll(){
         return userMapper.selectAll();
     }
+
+    public Iterable<SysUser> getByFullname(String fullname){
+        return userMapper.getByFullname(fullname+"%");
+    }
+    
     public List<SysUser> getAllNoPassword(){
         return userMapper.selectAllNoPassword();
     }
