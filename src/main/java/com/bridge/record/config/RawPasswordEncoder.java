@@ -8,13 +8,13 @@ public class RawPasswordEncoder implements PasswordEncoder {
 
     @Override
     public String encode(CharSequence rawPassword) {
-        // TODO Auto-generated method stub
+        // 不加密了
         return String.valueOf(rawPassword);
     }
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        // TODO Auto-generated method stub
+        // 直接用原始密码比较
         return String.valueOf(rawPassword).equals(encodedPassword);
     }
     

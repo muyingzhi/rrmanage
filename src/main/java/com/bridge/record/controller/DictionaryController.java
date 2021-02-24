@@ -38,7 +38,7 @@ public class DictionaryController {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<BizDictionary> list=dictionaryService.getList(record);
         PageInfo<BizDictionary> pageInfo = new PageInfo<>(list);
-        PageResponse responseVo=new PageResponse();
+        PageResponse<BizDictionary> responseVo=new PageResponse<>();
         responseVo.setPageData(pageInfo.getList());
         responseVo.setTotal(pageInfo.getTotal());
         return AjaxResult.success(responseVo);
@@ -51,12 +51,12 @@ public class DictionaryController {
 
     @ApiOperation("保存字典")
     @PostMapping("/save")
-    public AjaxResult addDict(@ApiParam(name="字典信息",value="新增字典参数") @Validated @RequestBody BizDictionary bizComponent){
+    public AjaxResult<Integer> addDict(@ApiParam(name="字典信息",value="新增字典参数") @Validated @RequestBody BizDictionary bizComponent){
         return AjaxResult.success(dictionaryService.save(bizComponent));
     }
     @ApiOperation("删除字典")
     @GetMapping("/deleteDict")
-    public AjaxResult deleteDict(@ApiParam(name = "id",value = "唯一主键",required = true)  @RequestParam(required = true) String id){
+    public AjaxResult<Integer> deleteDict(@ApiParam(name = "id",value = "唯一主键",required = true)  @RequestParam(required = true) String id){
         return AjaxResult.success(dictionaryService.deleteByPrimaryKey(id));
     }
 

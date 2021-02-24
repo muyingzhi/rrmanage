@@ -6,6 +6,10 @@ import lombok.Data;
 
 @Data
 public class SysRole implements GrantedAuthority {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private Integer roleid;
     private String roleName;
 
@@ -15,7 +19,6 @@ public class SysRole implements GrantedAuthority {
     }
     @Override
     public String getAuthority() {
-        // TODO Auto-generated method stub
         return "ROLE_"+this.roleName;
     }
     

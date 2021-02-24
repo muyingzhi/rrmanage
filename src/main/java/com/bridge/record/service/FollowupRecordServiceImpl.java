@@ -2,7 +2,6 @@ package com.bridge.record.service;
 
 import com.bridge.record.dao.FollowupRecordMapper;
 import com.bridge.record.model.FollowupRecord;
-import com.bridge.record.model.FollowupRecord;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
