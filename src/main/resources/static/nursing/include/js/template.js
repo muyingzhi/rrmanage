@@ -24,7 +24,7 @@ var initdata = new Vue({
 	},
 	mounted: function() {
 		var that = this;
-		axios.post(serverurl + 'api/user/list').then(function(res) {
+		axios.post(serverurl + 'api/user/nurse/list').then(function(res) {
 			that.userList = res.data.data;
 		})
 		this.loadtable();
