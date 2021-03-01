@@ -39,7 +39,7 @@
 			</el-table-column>
 			<el-table-column label="姓名">
 				<template slot-scope="scope">
-					<span>{{ scope.row.fullname }}</span>
+					<span>{{ scope.row.fullname }}<i class="el-icon-sunny" style="color: #409EFF;"></i></span>
 				</template>
 			</el-table-column>
 			<el-table-column label="出生日期">
@@ -101,6 +101,19 @@
 					<el-col :span="6">
 						<el-form-item label="档案编号" prop="patientid" >
 							<el-input v-model="form.patientid" placeholder="请输入" size="mini"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="6">
+						<el-form-item label="来源" prop="source" >
+							<el-input v-model="form.source" placeholder="请输入" size="mini"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="6">
+						<el-form-item >
+							<el-checkbox-group v-model="form.isvip">
+							<el-checkbox label="VIP客户" value="1" size="medium">
+							</el-checkbox>
+							</el-checkbox-group>
 						</el-form-item>
 					</el-col>
 				</el-row>

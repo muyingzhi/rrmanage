@@ -16,6 +16,8 @@ var initdata = new Vue({
 		form: {
 			id: '',
 			patientid:'',
+			source:'',
+			isvip:[1],
 			fullname: '',
 			sex: '',
 			birthday:'1977-01-01',
