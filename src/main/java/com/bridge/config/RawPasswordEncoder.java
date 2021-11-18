@@ -1,4 +1,4 @@
-package com.bridge.record.config;
+package com.bridge.config;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 /**

@@ -18,6 +18,12 @@ public class BaseinfoRecordServiceImpl {
         
         return mapper.findByFullname(fullname==null?"%":fullname+"%");
     }
+    public Iterable<BaseinfoRecord> getQuery(String fullname,String source){
+        
+        return mapper.findBy(fullname==null || "".equals(fullname)?"":fullname+"%",
+            source==null || "".equals(source)?"":source+"%");
+    }
+    
     public int save(BaseinfoRecord record){
         if(record.getId()==null){
             mapper.insert(record);

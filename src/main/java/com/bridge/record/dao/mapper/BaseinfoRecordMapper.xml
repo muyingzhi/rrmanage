@@ -23,4 +23,16 @@
     FROM rr_baseinfo_record t
     WHERE fullname like #{fullname}
   </select>
+  <select id="findBy" resultType="com.bridge.record.model.BaseinfoRecord">
+    SELECT
+    *
+    FROM rr_baseinfo_record t
+    WHERE 1=1
+    <if test="fullname!=''">
+     and fullname like #{fullname}
+    </if>
+    <if test="source!=''">
+     and source like #{source}
+    </if>
+  </select>
 </mapper>

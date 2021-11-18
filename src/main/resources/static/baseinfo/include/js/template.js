@@ -2,6 +2,7 @@ var initdata = new Vue({
 	el: '.cont',
 	data: {
 		fullname:'',
+		source:'',
 		age:'',
 		status:'',
 		tableData: [
@@ -137,10 +138,11 @@ var initdata = new Vue({
 			var that = this;
 			var tmp = {
 				fullname:this.fullname?this.fullname:'',
+				source:this.source?this.source:"",
 				pageNum: this.currentPage,
 				pageSize: this.pageSize,
 			};
-			axios.post(serverurl + 'api/baseinfo/list?fullname='+tmp.fullname, tmp).then(function(res) {
+			axios.post(serverurl + 'api/baseinfo/list', tmp).then(function(res) {
 				that.totalNum = res.data.data.total;
 				that.tableData = res.data.data.pageData;
 				for(var index=0;index<that.tableData.length;index++){
@@ -247,7 +249,9 @@ var initdata = new Vue({
 						this.form[p]=[]
 					}else{
 						var ss = this.form[p];
-						this.form[p]=ss.split(";")
+						if(ss instanceof String){
+							this.form[p]=ss.split(";")
+						}
 					}
 				}
 			}

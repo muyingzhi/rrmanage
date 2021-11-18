@@ -12,6 +12,8 @@ import lombok.Data;
 public class BaseinfoRecord {
     @Id
     private Long id;
+    private String source;
+    private String isvip;
     private String patientid;
     private String fullname;
     private String sex;

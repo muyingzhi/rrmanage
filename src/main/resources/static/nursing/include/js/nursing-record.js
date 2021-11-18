@@ -1,13 +1,14 @@
 
 /***
- * 选择客户：
- * deleteClick
+ * 护理记录：
+ * 
  * props:
- *     datas:[{}],
- *     nursingType:1/2
+ *     patientid:,
+ *     nursing-type:1/2	,
+ *     user-list
  * 
  */
-var selectPatientWidget = Vue.component('nursing-record', {
+var nursingRecord = Vue.component('nursing-record', {
     props:["patientid","nursingType","userList"],
     data: function () {
       return {

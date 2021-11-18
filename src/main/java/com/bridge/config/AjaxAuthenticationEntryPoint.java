@@ -1,4 +1,4 @@
-package com.bridge.record.config;
+package com.bridge.config;
 
 import java.io.IOException;
 import java.io.PrintWriter;

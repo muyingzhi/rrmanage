@@ -50,3 +50,5 @@ logging:
   config: classpath:logback-spring.xml
   level:
     com.bridge.record: info
+file:
+  filePath: /Users/muyz/

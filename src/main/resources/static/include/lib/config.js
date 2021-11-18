@@ -26,9 +26,10 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
   loadings.endLoading(); //结束加载动画
   if(response.data.code==500){
+    // layer.msg(response.data.msg,response.data.data)
     Vue.prototype.$message({
       type: 'error',
-      message: response.data.msg
+      message: response.data.msg+":"+response.data.data
     });
   }
   return response; //结束时把response return回去

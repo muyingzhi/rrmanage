@@ -1,6 +1,8 @@
 package com.bridge.record.controller;
 
 import java.security.Principal;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.bridge.common.AjaxResult;
@@ -28,10 +30,14 @@ public class BaseinfoController {
     private BaseinfoRecordServiceImpl baseinfoService;
     @PostMapping("/list")
     public AjaxResult<PageResponse<BaseinfoRecord>> getPageList(
-        @RequestParam String fullname,
-        @RequestBody PageRequest page
+        @RequestBody Map<String,String> params
         ){
-            Iterable<BaseinfoRecord> its= baseinfoService.getByFullname(fullname);
+            
+        // int pageNum=0;int pageSize=10;
+            PageRequest page = new PageRequest();
+            page.setPageNum(Integer.valueOf(params.get("pageNum").toString()));
+            page.setPageSize(Integer.valueOf(params.get("pageSize").toString()));
+            Iterable<BaseinfoRecord> its= baseinfoService.getQuery(params.get("fullname"), params.get("source"));
             PageInfo<BaseinfoRecord> pageInfo = new PageInfo<>(Lists.newArrayList(its));
             PageResponse<BaseinfoRecord> responseVo=new PageResponse<>();
             responseVo.setPageData(pageInfo.getList());
