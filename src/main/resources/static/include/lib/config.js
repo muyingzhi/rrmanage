@@ -1,5 +1,7 @@
 var loadingss;
-
+// Vue.prototype.$message=function(data){
+//   alert(data.message)
+// }
 var loadings = new Vue({
   methods: {
     startLoading: function () {
@@ -31,6 +33,7 @@ axios.interceptors.response.use(function (response) {
       type: 'error',
       message: response.data.msg+":"+response.data.data
     });
+    return response; //结束时把response return回去
   }
   return response; //结束时把response return回去
 }, function (error) {

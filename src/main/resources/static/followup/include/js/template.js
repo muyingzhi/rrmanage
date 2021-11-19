@@ -121,10 +121,6 @@ var initdata = new Vue({
 					}).then(
 						function(res) {
 							if (res.data.code == 500) {
-								that.$message({
-									type: 'info',
-									message: res.data.msg
-								});
 								return;
 							}
 							that.$message({
