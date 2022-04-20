@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import tk.mybatis.spring.annotation.MapperScan;
 
-@MapperScan(basePackages = "com.bridge.record.dao")
+@MapperScan({"com.bridge.record.dao","com.bridge.vehicles.dao"})
 @SpringBootApplication
 public class RecordApplication {
 
