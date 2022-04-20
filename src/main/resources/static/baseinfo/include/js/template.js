@@ -212,15 +212,14 @@ var initdata = new Vue({
 						data: data
 					}).then(
 						function(res) {
-							if (res.data.code == 500) {
-								return;
+							if (res.data.code == 0) {
+								that.$message({
+									type: 'success',
+									message: "保存成功"
+								});
+								that.loadtable();
+								that.dialogVisible = false;
 							}
-							that.$message({
-								type: 'success',
-								message: "保存成功"
-							});
-							that.loadtable();
-							that.dialogVisible = false;
 						});
 				} else {
 					that.$message({
