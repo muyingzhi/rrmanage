@@ -8,12 +8,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@Table(name = "examination.dim_record")
+@Table(name = "examination.dic_record")
 @EqualsAndHashCode(callSuper=false)
 @ApiModel("字典表")
-public class DimRecord {
+public class DicRecord {
     @ApiModelProperty("字典类别")
-    private String dimType;
+    private String dicType;
 
     @ApiModelProperty("编码")
     private String itemCode;

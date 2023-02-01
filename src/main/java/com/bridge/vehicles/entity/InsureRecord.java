@@ -27,8 +27,12 @@ public class InsureRecord extends BaseEntity {
     @ApiModelProperty("投保年份")
     private String insureYear;
     
-    @ApiModelProperty("投保时间")
-    private Date insureDate;
+    @ApiModelProperty("投保年度")
+    private Integer insureDateYear;
+    @ApiModelProperty("投保月")
+    private Integer insureDateMonth;
+    @ApiModelProperty("投保日")
+    private Integer insureDateDay;
 
     @ApiModelProperty("保险公司")
     private String  insuranceCompany;

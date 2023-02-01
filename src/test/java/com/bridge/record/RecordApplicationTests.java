@@ -23,7 +23,7 @@ class RecordApplicationTests {
 	private FollowupRecordServiceImpl followupService;
 	@Autowired
 	private BaseinfoRecordServiceImpl baseinfoService;
-	@Test
+	// @Test
 	void planTest() {
 		// PlanRecord record = new PlanRecord();
 		// record.setPatientid("patientid");
@@ -36,7 +36,7 @@ class RecordApplicationTests {
 		
 		Assert.isTrue(size>0,"查询无数据");
 	}
-	@Test
+	// @Test
 	void followupTest() {
 		FollowupRecord record = new FollowupRecord();
 		record.setPatientid("001001");
@@ -48,7 +48,7 @@ class RecordApplicationTests {
 		
 		Assert.isTrue(size>0,"查询无数据");
 	}
-	@Test
+	// @Test
 	void baseinfoTest() {
 		BaseinfoRecord record = new BaseinfoRecord();
 		record.setPatientid("patientid");

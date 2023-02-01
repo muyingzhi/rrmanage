@@ -1,5 +1,7 @@
 package com.bridge.vehicles.entity;
 
+import java.util.Date;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "examination.user_info")
 @EqualsAndHashCode(callSuper=false)
 @ApiModel("用户信息")
-public class UserInfoWx extends BaseEntity{
+public class UserInfoWx{
 
     @Id
     @GeneratedValue(generator = "JDBC")
@@ -21,4 +23,6 @@ public class UserInfoWx extends BaseEntity{
     private String wxName;
     private String fullname;
     private String tel;
+    private Date createTime;
+    private Date updateTime;
 }

@@ -2,6 +2,7 @@ package com.bridge.vehicles.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -20,6 +21,7 @@ public class ScoreRecord extends BaseEntity {
     @Id
     @GeneratedValue(generator = "JDBC")
     @ApiModelProperty("ID")
+    @Column(name = "score_id")
     private Long id;
 
     @ApiModelProperty("用户ID")
@@ -30,9 +32,6 @@ public class ScoreRecord extends BaseEntity {
     
     @ApiModelProperty("积分后合计")
     private Integer totalScore;
-
-    @ApiModelProperty("投保时间")
-    private Date insureDate;
 
     @ApiModelProperty("积分业务")
     private String  reason;

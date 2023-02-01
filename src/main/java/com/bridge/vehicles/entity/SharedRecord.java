@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "examination.shared_record")
 @EqualsAndHashCode(callSuper=false)
 @ApiModel("分享记录")
-public class SharedRecord extends BaseEntity {
+public class SharedRecord  {
 
     @Id
     @GeneratedValue(generator = "JDBC")

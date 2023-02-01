@@ -1,0 +1,13 @@
+DELETE  from dic_record;
+DELETE  from examination_record;
+DELETE  from examination_station;
+DELETE  from goods;
+DELETE  from goods_type;
+DELETE  from insure_record;
+DELETE  from licenses_vehicles;
+DELETE  from order_record ;
+DELETE  from order_detail;
+DELETE  from order_pay_record;
+DELETE  from score_record;
+DELETE  from shared_record;
+DELETE  from user_info;

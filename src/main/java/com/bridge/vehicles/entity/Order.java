@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @ApiModel("订单")
-@Table(name = "examination.order")
+@Table(name = "examination.order_record")
 public class Order extends BaseEntity{
     @Id
     @GeneratedValue(generator = "JDBC")

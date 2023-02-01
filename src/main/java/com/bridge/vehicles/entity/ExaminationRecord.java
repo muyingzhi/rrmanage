@@ -1,6 +1,6 @@
 package com.bridge.vehicles.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,10 +28,14 @@ public class ExaminationRecord extends BaseEntity{
     private String sourceType;
     @ApiModelProperty("代理用户")
     private Long agentUserId;
+    @ApiModelProperty("车类型")
+    private String vehicleType;
     @ApiModelProperty("车牌号")
     private String vehicleNo;
-    @ApiModelProperty("预约检测日期")
+    @ApiModelProperty("预约日期")
     private Date appointmentDate;
+    @ApiModelProperty("预约检测日期")
+    private Date appointmentExamDate;
     @ApiModelProperty("预约检测站")
     private Integer stationId;
     @ApiModelProperty("检测费用")
@@ -39,7 +43,7 @@ public class ExaminationRecord extends BaseEntity{
     @ApiModelProperty("是否支付：0未支付；1已支付")
     private Integer isPaid;
     @ApiModelProperty("支付方式")
-    private String payway;
+    private String payWay;
     @ApiModelProperty("支付时间")
     private Date payTime;
     @ApiModelProperty("检测时间")

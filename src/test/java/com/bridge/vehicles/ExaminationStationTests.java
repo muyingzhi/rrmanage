@@ -6,6 +6,7 @@ import com.bridge.vehicles.dao.ExaminationRecordMapper;
 import com.bridge.vehicles.dao.ExaminationStationMapper;
 import com.bridge.vehicles.dao.GoodsMapper;
 import com.bridge.vehicles.dao.GoodsTypeMapper;
+import com.bridge.vehicles.entity.ExaminationRecord;
 import com.bridge.vehicles.entity.ExaminationStation;
 import com.bridge.vehicles.entity.Goods;
 import com.bridge.vehicles.entity.GoodsType;
@@ -40,5 +41,29 @@ class ExaminationStationTests {
 		int i = stationMapper.insert(station);
 		
 		Assert.isTrue(station.getId()>=0,"station Insert失败");
+	}
+	@Test
+	void examInsert() {
+		ExaminationStation station = new ExaminationStation();
+		station.setId(Long.valueOf(1));
+		stationMapper.selectOne(station);
+		ExaminationRecord record= new ExaminationRecord();
+		record.setAgentUserId(Long.valueOf(1));
+		record.setAppointmentExamDate(new Date());
+		record.setAppointmentDate(new Date());
+		record.setSourceType("1");
+		record.setExaminationDate(new Date());
+		record.setExaminationText("鼎新检001");
+		record.setExaminationType("代理");
+		record.setFee(360);
+		record.setIsPaid(1);
+		record.setPayWay("微信支付");
+		record.setNextDate("202310");
+		record.setPayTime(new Date());
+		record.setStationId(Integer.valueOf(station.getId().toString()));
+		record.setVehicleNo("京Q27758");
+		record.setVehicleType("小客车");
+		examRecordMapper.insert(record);
+		Assert.isTrue(record.getExaminationId()>=0,"station Insert失败");
 	}
 }
