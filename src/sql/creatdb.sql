@@ -75,9 +75,10 @@ create TABLE rr_baseinfo_record (
     treat   varchar(60),
     nurse_name   varchar(10),
     nurse_fullname varchar(20),
-    status    varchar(2)
+    status    varchar(2),
+    source varchar(2),
+    isvip varchar(1)
 );
-
 DROP TABLE IF EXISTS rr_followup_record;
 create TABLE rr_followup_record (
     id int not null auto_increment,
